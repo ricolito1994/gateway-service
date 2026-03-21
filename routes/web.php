@@ -7,8 +7,9 @@ Route::group([
     "namespace" => "App\Http\Controllers",
 ], function () {
     Route::get('/', "GatewayController@index");
-    Route::post ('/login', "GatewayController@login");
-    Route::post ('/refreshtoken', "GatewayController@refreshtoken");
+    Route::post ('/login/{test?}', "GatewayController@login");
+    Route::post ('/logout/{test?}', "GatewayController@logout");
+    Route::post ('/refreshtoken/{test?}', "GatewayController@refreshtoken");
     
 
     Route::group([

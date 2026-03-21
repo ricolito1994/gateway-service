@@ -15,6 +15,7 @@ class GatewayController extends Controller
     public function __construct(
         protected readonly AuthService $authService,
         protected readonly IpManagerService $ipService,
+        protected readonly LogRepository $logRepository
     ) {
     }
 
@@ -26,13 +27,13 @@ class GatewayController extends Controller
         ], 200);
     }
 
-    public function login(Request $request): JsonResponse 
+    public function login(Request $request, string|null $test = null): JsonResponse 
     {
         try {
             $response = $this->authService->login($request);
 
             $this->logRepository->create([
-                'activity' => 'Sign In',
+                'activity' => 'Sign In ' . ($test ? "test" : ""),
                 'done_by' => $response['data']['user']['id'],
             ]);
 
@@ -47,14 +48,14 @@ class GatewayController extends Controller
         }
     }
 
-    public function logout(Request $request): JsonResponse 
+    public function logout(Request $request, string | null $test = null): JsonResponse 
     {
         try {
             $response = $this->authService->logout($request);
 
             $this->logRepository->create([
-                'activity' => 'Sign Out',
-                'done_by' => $request->input('userId'),
+                'activity' => 'Sign Out '. ($test ? "test" : ""),
+                'done_by' => $request->input('user_id'),
             ]);
 
             return response()->json($response['data'], $response['status']);

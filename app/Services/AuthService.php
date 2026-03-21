@@ -36,6 +36,7 @@ class AuthService extends BaseService {
                     'Authorization' => "Bearer {$request->bearerToken()}"
                 ],
                 'options' => [
+                    'user_id' => $request->input('user_id')
                 ]
             ]
         ]);

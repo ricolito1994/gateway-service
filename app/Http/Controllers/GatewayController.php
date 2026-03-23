@@ -32,10 +32,12 @@ class GatewayController extends Controller
         try {
             $response = $this->authService->login($request);
 
-            $this->logRepository->create([
-                'activity' => 'Sign In ' . ($test ? "test" : ""),
-                'done_by' => $response['data']['user']['id'],
-            ]);
+            if(isset($response['data']['user'])) {
+                $this->logRepository->create([
+                    'activity' => 'Sign In ' . ($test ? "test" : ""),
+                    'done_by' => $response['data']['user']['id'],
+                ]);
+            }
 
             return response()->json($response['data'], $response['status']);
 
@@ -73,6 +75,22 @@ class GatewayController extends Controller
     {
         try {
             $response = $this->authService->me($request);
+
+            return response()->json($response['data'], $response['status']);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                "message" => "failed",
+                "reason" => $e->getMessage(),
+                "success" => false
+            ], 500);
+        }
+    }
+
+    public function findUser(Request $request, int $id): JsonResponse 
+    {
+        try {
+            $response = $this->authService->findUser($request, $id);
 
             return response()->json($response['data'], $response['status']);
 

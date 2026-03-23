@@ -17,9 +17,15 @@ Route::group([
     ], function () {
         Route::get('{page?}', "GatewayController@indexIP");
         Route::get('find/{id}', "GatewayController@findIP");
-        Route::put('update/{id}/{userId}', "GatewayController@updateIP");
+        Route::patch('update/{id}/{userId}', "GatewayController@updateIP");
         Route::post('create/{userId}' , "GatewayController@createIP");
         Route::delete('delete/{id}/{userId}' , "GatewayController@deleteIP");
+    });
+
+    Route::group([
+        "prefix" => "user",
+    ], function () {
+        Route::get('{id}', "GatewayController@findUser");
     });
 
     Route::group([

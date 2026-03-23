@@ -56,6 +56,20 @@ class AuthService extends BaseService {
         ]);
     }
 
+    public function findUser(Request $request, int $id): array
+    {
+        return $this->asyncRequest([
+            [
+                'method' => 'GET',
+                'url' => self::AUTH_SERVICE_BASE_URL. "/user/{$id}",
+                'headers' => [
+                    'Authorization' => "Bearer {$request->bearerToken()}"
+                ],
+                'options' => []
+            ]
+        ]);
+    }
+
     public function refreshtoken(Request $request): array
     {
         return $this->asyncRequest([

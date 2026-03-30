@@ -18,6 +18,7 @@ class LogsController extends Controller
         try {
             $response = $this->logRepository
                 ->get($request)
+                ->orderBy('created_at', 'desc')
                 ->paginate(10);
 
             return response()->json($response, 200);
